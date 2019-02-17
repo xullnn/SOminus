@@ -1,0 +1,9 @@
+
+xullnn:
+  id: '1'
+  password: !ruby/string:BCrypt::Password
+    str: "$2a$10$ipHuloD3d0rNLoIgy.IT1.lWtDE87BgP6.sAUgC4vKfuQw3k3ELvm"
+    version: 2a
+    cost: 10
+    salt: "$2a$10$ipHuloD3d0rNLoIgy.IT1."
+    checksum: lWtDE87BgP6.sAUgC4vKfuQw3k3ELvm

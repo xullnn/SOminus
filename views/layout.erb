@@ -1,11 +1,36 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="application.css">
   </head>
 
   <body>
     <div class="main">
+      <% if session[:message] %>
+        <div class="flash_message">
+          <p><%= session.delete(:message) %></p>
+        </div>
+      <% end %>
+
       <%= yield %>
+    </div>
+    
+    <footer><a href="/">Back to home page.</a></footer>
+
+    <div class="user_state">
+      <% if session[:signed_in_as] %>
+        <p><em>Welcome. You're currently signed in as "<%= session[:signed_in_as] %>"</em></p>
+        <form action="/users/signout" method="post">
+          <button type="submit">Sign Out</button>
+        </form>
+      <% else %>
+        <a href="/users/new">Sign Up</a>
+        <a href="/users/signin">Sign In</a>
+      <% end %>
+    </div>
+
+    <div>
+
     </div>
   </body>
 </html>
