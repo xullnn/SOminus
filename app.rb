@@ -6,3 +6,7 @@ if development?
   require 'pry'
   require 'sinatra/reloader'
 end
+
+get "/" do
+  "hello world"
+end
