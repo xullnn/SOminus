@@ -79,9 +79,13 @@ get "/questions/:id" do
 end
 
 get "/question" do
+  redirect "/" if params[:query].nil?
   query = params[:query].downcase.strip
-  redirect "/" unless query
   @questions = search_questions_by_title(query)
+  if @questions.empty?
+    session[:message] = "No results were found for \"#{query}\"."
+    redirect "/"
+  end
   erb :search_results
 end
 

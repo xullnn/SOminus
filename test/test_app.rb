@@ -128,6 +128,9 @@ class AppTest < Minitest::Test
     create_test_questions
     get "/question?query=test+5"
     assert_includes last_response.body, "test 5"
+
+    get "/question?query=test+6"
+    assert_equal "No results were found for \"test 6\".", last_request_session[:message]
   end
 
   def create_test_user(username, password)
