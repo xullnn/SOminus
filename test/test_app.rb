@@ -16,7 +16,9 @@ class AppTest < Minitest::Test
 
   def setup
     # create test data directory
-    FileUtils.mkdir_p(File.join(data_path))
+    FileUtils.mkdir_p(data_path)
+    FileUtils.touch(File.join(data_path, 'users.yaml'))
+    FileUtils.touch(File.join(data_path, 'questions.yaml'))
   end
 
   def teardown
@@ -79,7 +81,7 @@ class AppTest < Minitest::Test
   def test_signout
     get "/", {}, login_for_test
     assert_includes last_response.body, "Sign Out"
-    assert_includes last_response.body, "Welcome. You're currently signed in as \"test_user\""
+    assert_includes last_response.body, "Welcome. You're currently signed in as \"test\""
 
     post "/users/signout"
     assert_equal 302, last_response.status
@@ -89,14 +91,61 @@ class AppTest < Minitest::Test
     assert_includes last_response.body, "Successfully signed out"
   end
 
+  def test_ask_question_button
+    get "/"
+    refute_includes last_response.body, "Ask Question</button>"
+
+    get "/", { }, login_for_test
+    assert_includes last_response.body, "Ask Question</button>"
+  end
+
+  def test_ask_new_question
+    get "/new_question"
+    assert_equal "You need to sign in first to perform this operation.", last_request_session[:message]
+
+    get "/new_question", {}, login_for_test
+    assert_includes last_response.body, "Question Title"
+  end
+
+  def test_create_question
+    create_test_user("test", "123456")
+
+    post "/questions", { title: 'test question', description: "some text" }
+    assert_equal "You need to sign in first to perform this operation.", last_request_session[:message]
+
+    post "/questions", { title: 'test question', description: "some text" }, login_for_test
+    assert_equal "Successfully posted a question.", last_request_session[:message]
+  end
+
+  def test_view_single_question
+    # need not user credential
+    create_test_questions
+    get "/questions/2"
+    assert_includes last_response.body, "This is a test question"
+  end
+
+  def test_search_questions
+    create_test_questions
+    get "/question?query=test+5"
+    assert_includes last_response.body, "test 5"
+  end
+
   def create_test_user(username, password)
     File.open(File.join(data_path, "users.yaml"), "a+") do |f|
       f.write(Psych.dump({username => {"id" => new_id_of(:users), "password" => BCrypt::Password.create(password)}}).delete("---"))
     end
   end
 
+  def create_test_questions
+    (1..5).each do |id|
+      File.open(File.join(data_path, "questions.yaml"), "a+") do |f|
+        f.write(Psych.dump({"test #{id}" => { "id" => id.to_s, "user_id" => "1", "description" => "This is a test question"}}).delete("---"))
+      end
+    end
+  end
+
   def login_for_test
-    {'rack.session' => { signed_in_as: "test_user" } }
+    {'rack.session' => { signed_in_as: "test" } }
   end
 
   def last_request_session

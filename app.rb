@@ -52,19 +52,86 @@ post "/users/signout" do
   redirect "/"
 end
 
+get "/new_question" do
+  validate_user
+  erb :new_question
+end
+
+post "/questions" do
+  validate_user
+  title, description = params[:title], params[:description]
+  id = new_id_of(:questions)
+  user_id = load_data_of(:users)[session[:signed_in_as]]["id"]
+  write_new_question({title => { 'id' => id, 'user_id' => user_id, 'description' => description }})
+  session[:message] = "Successfully posted a question."
+  redirect "/"
+end
+
+get "/questions/:id" do
+  question = find_question_by_id(params[:id])
+  if question
+    @question = question # array [title, {infs}]
+    erb :question
+  else
+    session[:message] = "This question doesn't exist."
+    redirect "/"
+  end
+end
+
+get "/question" do
+  query = params[:query].downcase.strip
+  redirect "/" unless query
+  @questions = search_questions_by_title(query)
+  erb :search_results
+end
+
 private
 
+  def search_questions_by_title(query)
+    questions = load_data_of(:questions)
+    words = query.strip.split # ruby's select method
+    questions.select do |title, _|
+      title_matched?(title.downcase, words)
+    end
+  end
+
+  def title_matched?(title, words)
+    score = 0
+    words.each do |word|
+      score += 1 if title.match(Regexp.new(word))
+    end
+    score >= 2 ? true : false
+  end
+
+  def find_question_by_id(id)
+    questions = load_data_of(:questions)
+    questions.find { |_, infs| infs["id"] == id.to_s }
+  end
+
+  def write_new_question(question_obj)
+    File.open(File.join(data_path, "questions.yaml"), "a+") do |f|
+      f.write(Psych.dump(question_obj).delete("---"))
+    end
+  end
+
   def check_name_uniqueness(username)
-    return unless load_user_credentials
-    if load_user_credentials[username]
+    return unless load_data_of(:users)
+    if load_data_of(:users)[username]
       session[:message] = "Name \"#{username}\" has been taken. Please choose another one."
       status 422
       halt erb(:signup)
     end
   end
 
+  def validate_user
+    unless session[:signed_in_as]
+      session[:message] = "You need to sign in first to perform this operation."
+      redirect "/"
+    end
+  end
+
   def validate_user_credential(username, password)
-    user_list = load_user_credentials
+    user_list = load_data_of(:users)
     user = user_list[username]
     unless user && BCrypt::Password.new(user["password"]) == password
       status 422
@@ -107,15 +174,16 @@ private
     (3..100).cover?(username.size) && (6..100).cover?(password.size) && !password.match(/\W/)
   end
 
-  def load_user_credentials
-    Psych.load_file(File.join(data_path, "users.yaml"))
+  def load_data_of(type)
+    filename = type.to_s + ".yaml"
+    Psych.load_file(File.join(data_path, filename))
   end
 
   def new_id_of(type)
     valid_types(type)
-    user_list = load_user_credentials
-    return "1" unless user_list
-    max_id = user_list.map { |_, infs| infs["id"] }.max.to_i
+    data = load_data_of(type)
+    return "1" unless data
+    max_id = data.map { |_, infs| infs["id"].to_i }.max
     (max_id + 1).to_s
   end
 

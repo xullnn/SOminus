@@ -16,10 +16,12 @@ yaml
 
 - User
   - id
-- Questions
+- Question
   - id
   - user_id(who asked)
-- Answers
+  - title
+  - description
+- Answer
   - id
   - question_id(which question it is answering)
   - user_id(who answered)

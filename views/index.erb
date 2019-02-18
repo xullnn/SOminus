@@ -1,0 +1,11 @@
+<% if session[:signed_in_as] %>
+  <form action="/new_question" method="get">
+    <button class="ask_question" type="submit">Ask Question</button>
+  </form>
+<% end %>
+
+<form id="query_form" action="/question" method="get">
+  <label for="query">Search:</label><br>
+  <textarea name="query" rows="3" cols="80"></textarea><br>
+  <button type="submit">Submit</button>
+</form>

@@ -1,0 +1,75 @@
+
+test question:
+  id: '1'
+  user_id: '1'
+  description: Welcome. You're currently signed in as "xullnn"
+
+another question:
+  id: '2'
+  user_id: '1'
+  description: Welcome. You're currently signed in as "xullnn"
+
+Use Ruby's select method on a Rails relation and update it:
+  id: '3'
+  user_id: '1'
+  description: I have an ActiveRecord relation of a user's previous "votes"... @previous_votes = current_user.votes I need to filter these down to votes only on the current "challenge", so Ruby's select method … of these records, and the select method turns my relation into an array which can't be updated or saved! @previous_votes.update_all :ignore => false
+
+How to pass Function as parameter to computeifAbsent Methods in java 8:
+  id: '4'
+  user_id: '1'
+  description: I am new to Java, kinda transition from C# to java. Java.util.function
+    has a interface defined as Function which is input to computeIfAbsent method.
+
+Removing first part of string?:
+  id: '5'
+  user_id: '1'
+  description: "Trying to edit urls in array.\r\n\r\n[0] => https://www.proudweb.jp/mansion/b115110/https://www.proudweb.jp/module/structure/outline/BukkenOutline.xphp?code_no=011244\r\n[1]
+    => https://www.proudweb.jp/mansion/pebisuminami88/https://www.proudweb.jp/module/structure/outline/BukkenOutline.xphp?code_no=011205\r\nAs
+    you see urls are like this. trying to remove first url and contain the second."
+
+Access property in extended classes:
+  id: '6'
+  user_id: '1'
+  description: "0\r\n\r\n\r\nI'm trying to achieve the following:\r\n\r\nI have a
+    parent class, with some logic. In the child class, I \"redefine\" constants/properties.
+    Is there any way to make the child properties accessible by methods defined in
+    the parent class? Or to be more specific  is there any way to force the \"out\"
+    method to write extended rather than base in the following example?"
+
+How to write a switch statement in Ruby:
+  id: '7'
+  user_id: '1'
+  description: "Ruby compares the object in the when clause with the object in the
+    case clause using the === operator. For example, 1..5 === x, and not x === 1..5.\r\n\r\nThis
+    allows for sophisticated when clauses as seen above. Ranges, classes and all sorts
+    of things can be tested for rather than just equality."
+
+Check if a value exists in an array in Ruby:
+  id: '8'
+  user_id: '1'
+  description: "I have a value 'Dog' and an array ['Cat', 'Dog', 'Bird'].\r\n\r\nHow
+    do I check if it exists in the array without looping through it? Is there a simple
+    way of checking if the value exists, nothing more?"
+
+How to convert a string to lower or upper case in Ruby:
+  id: '9'
+  user_id: '1'
+  description: How do I take a string and convert it to lower or upper case in Ruby?
+
+A concise explanation of nil v. empty v. blank in Ruby on Rails:
+  id: '10'
+  user_id: '1'
+  description: "I find myself repeatedly looking for a clear definition of the differences
+    of nil?, blank?, and empty? in Ruby on Rails. Here's the closest I've come:\r\n\r\nblank?
+    objects are false, empty, or a whitespace string. For example, \"\", \" \", nil,
+    [], and {} are blank.\r\n\r\nnil? objects are instances of NilClass.\r\n\r\nempty?
+    objects are classspecific, and the definition varies from class to class. A string
+    is empty if it has no characters, and an array is empty if it contains no items.\r\n\r\nIs
+    there anything missing, or a tighter comparison that can be made?"
+
+How to pass command line arguments to a rake task:
+  id: '11'
+  user_id: '1'
+  description: " have a rake task that needs to insert a value into multiple databases.\r\n\r\nI'd
+    like to pass this value into the rake task from the command line, or from another
+    rake task.\r\n\r\nHow can I do this?"

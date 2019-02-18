@@ -9,6 +9,30 @@ div.flash_message {
   background-color: tomato;
 }
 
-footer {
-  float: right;
+button {
+  font-size: 15px;
+  border-radius: 4px;
+  margin: 5px 0;
+}
+
+.ask_question {
+  font-size: 1.2em;
+  background-color: rgb(70, 182, 239);
+}
+
+#login_info {
+  color: tomato;
+  opacity: 0.6;
+}
+
+.user_state {
+  margin-top: 300px;
+}
+
+#query_form {
+  margin-top: 2em;
+}
+
+.description {
+  padding-left: 1em;
 }

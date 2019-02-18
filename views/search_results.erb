@@ -1,0 +1,6 @@
+<div class="search_results">
+  <% @questions.each do |title, infs| %>
+  <p><strong><a href="/questions/<%= infs["id"] %>"><%= title %></a></strong></p>
+  <p class="description"><%= infs["description"][0..200]%> ......</p>
+  <% end %>
+</div>

@@ -1,7 +1,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="application.css">
+    <link rel="stylesheet" href="/application.css" type="text/css">
   </head>
 
   <body>
@@ -14,12 +14,12 @@
 
       <%= yield %>
     </div>
-    
-    <footer><a href="/">Back to home page.</a></footer>
+
+
 
     <div class="user_state">
       <% if session[:signed_in_as] %>
-        <p><em>Welcome. You're currently signed in as "<%= session[:signed_in_as] %>"</em></p>
+        <p id="login_info"><em>Welcome. You're currently signed in as "<%= session[:signed_in_as] %>"</em></p>
         <form action="/users/signout" method="post">
           <button type="submit">Sign Out</button>
         </form>
@@ -30,7 +30,7 @@
     </div>
 
     <div>
-
+      <footer><a href="/">Back to home page.</a></footer>
     </div>
   </body>
 </html>
