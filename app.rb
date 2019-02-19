@@ -71,6 +71,7 @@ get "/questions/:id" do
   question = find_question_by_id(params[:id])
   if question
     @question = question # array [title, {infs}]
+    @answers = find_answers_by_question_id(params[:id])
     erb :question
   else
     session[:message] = "This question doesn't exist."
@@ -89,7 +90,54 @@ get "/question" do
   erb :search_results
 end
 
+get "/questions" do
+  @questions = load_data_of(:questions)
+  erb :questions
+end
+
+post "/questions/:question_id/answers" do
+  validate_user
+  id = new_id_of(:answers)
+  question_id = params[:question_id]
+  user_id = current_user["id"]
+  content = params[:content]
+  answer = {
+    id => {
+      "question_id" => question_id,
+      "user_id" => user_id,
+      "content" => content
+    }
+  }
+  write_new_answer(answer)
+  session[:message] = "Successfully posted an answer."
+  redirect "/questions/#{question_id}"
+end
+
 private
+
+  def find_user_by_id(user_id)
+    load_data_of(:users).select { |name, infs| infs["id"] == user_id }
+  end
+
+  def find_answers_by_question_id(question_id)
+    answers = load_data_of(:answers)
+    return nil unless answers
+    answers.values.select { |answer| answer["question_id"] == question_id }
+  end
+
+  def write_new_answer(answer)
+    File.open(File.join(data_path, "answers.yaml"), "a+") do |f|
+      f.write(Psych.dump(answer).delete("---"))
+    end
+  end
+
+  def current_user
+    load_data_of(:users)[session[:signed_in_as].to_s]
+  end
+
+  def last_datum_of(type)
+    [load_data_of(type).to_a.last].to_h
+  end
 
   def search_questions_by_title(query)
     questions = load_data_of(:questions)
@@ -187,7 +235,11 @@ private
     valid_types(type)
     data = load_data_of(type)
     return "1" unless data
-    max_id = data.map { |_, infs| infs["id"].to_i }.max
+    if type == :answers
+      max_id = data.keys.map(&:to_i).max
+    else
+      max_id = data.map { |_, infs| infs["id"].to_i }.max
+    end
     (max_id + 1).to_s
   end
 

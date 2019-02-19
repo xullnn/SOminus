@@ -6,6 +6,10 @@
 
   <body>
     <div class="main">
+      <div class="all_questions_link">
+        <a href="/questions">View all questions.</a> 
+      </div>
+
       <% if session[:message] %>
         <div class="flash_message">
           <p><%= session.delete(:message) %></p>
@@ -14,8 +18,6 @@
 
       <%= yield %>
     </div>
-
-
 
     <div class="user_state">
       <% if session[:signed_in_as] %>

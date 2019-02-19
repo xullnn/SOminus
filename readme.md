@@ -25,3 +25,4 @@ yaml
   - id
   - question_id(which question it is answering)
   - user_id(who answered)
+  - content

@@ -19,6 +19,7 @@ class AppTest < Minitest::Test
     FileUtils.mkdir_p(data_path)
     FileUtils.touch(File.join(data_path, 'users.yaml'))
     FileUtils.touch(File.join(data_path, 'questions.yaml'))
+    FileUtils.touch(File.join(data_path, 'answers.yaml'))
   end
 
   def teardown
@@ -131,6 +132,41 @@ class AppTest < Minitest::Test
 
     get "/question?query=test+6"
     assert_equal "No results were found for \"test 6\".", last_request_session[:message]
+  end
+
+  def test_view_all_questions
+    create_test_questions
+    get "/questions"
+    assert_includes last_response.body, last_datum_of(:questions).to_a.flatten.first
+  end
+
+  def test_answer_questions_button
+    create_test_questions
+    create_test_user("test", "123456")
+
+    get "/questions/3"
+    assert_includes last_response.body, "<button disabled>Answer This Question</button>"
+    assert_includes last_response.body, "Please login to answer questions."
+
+    get "/questions/3", {}, login_for_test
+    assert_includes last_response.body, "<button type=\"submit\">Answer This Question</button>"
+    refute_includes last_response.body, "Please login to answer questions."
+  end
+
+  def test_user_answer_questions
+    create_test_questions
+    create_test_user("test", "123456")
+
+    post "/questions/3/answers", content: "Some answer"
+    assert_equal "You need to sign in first to perform this operation.", last_request_session[:message]
+
+    post "/questions/3/answers", { content: "Some answer" }, login_for_test
+    assert_equal 302, last_response.status
+    assert_equal "Successfully posted an answer.", last_request_session[:message]
+    get last_response["Location"]
+    assert_includes last_response.body, "test 3"
+    assert_includes last_response.body, "answered by: \"test\""
+    assert_includes last_response.body, "Some answer"
   end
 
   def create_test_user(username, password)

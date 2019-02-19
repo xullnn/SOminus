@@ -26,7 +26,7 @@ button {
 }
 
 .user_state {
-  margin-top: 300px;
+  margin-top: 200px;
 }
 
 #query_form {
@@ -35,4 +35,24 @@ button {
 
 .description {
   padding-left: 1em;
+}
+
+.login_hint {
+  opacity: 0.6;
+  font-style: italic;
+}
+
+.answerer {
+  opacity: 0.6;
+  text-align: right;
+}
+
+.answer_body {
+  border-left: 3px solid lightgrey;
+  padding-left: 1em;
+  margin-top: 2em;
+}
+
+.answer_question {
+  margin-top: 2em;
 }

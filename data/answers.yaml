@@ -1,0 +1,20 @@
+
+'1':
+  question_id: '3'
+  user_id: '1'
+  content: Specifies the distance between the borders of adjacent cells in px, cm,
+    etc. Negative values are not allowed.
+
+'2':
+  question_id: '3'
+  user_id: '1'
+  content: "\tSpecifies the distance between the borders of adjacent cells in px,
+    cm, etc. Negative values are not allowed."
+
+'3':
+  question_id: '3'
+  user_id: '1'
+  content: When a message is displayed to a user anywhere on the site, it should be
+    styled in a way that is easily distinguished from the rest of the page. This will
+    help attract the user's attention to the information in the message that would
+    otherwise be easy to miss.
