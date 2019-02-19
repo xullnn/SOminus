@@ -71,6 +71,7 @@ get "/questions/:id" do
   question = find_question_by_id(params[:id])
   if question
     @question = question # array [title, {infs}]
+    @asker = find_user_by_id(@question.last["user_id"])
     @answers = find_answers_by_question_id(params[:id])
     erb :question
   else
@@ -113,7 +114,23 @@ post "/questions/:question_id/answers" do
   redirect "/questions/#{question_id}"
 end
 
+get "/users/:id" do
+  @user = find_user_by_id(params[:id])
+  @user_s_asked_questions = load_data_of(:questions).select { |_, infs| infs["user_id"] == params[:id] }
+  user_s_answers_question_ids = load_data_of(:answers).select do |_, infs|
+     infs["user_id"] == params[:id]
+  end.map { |_, infs| infs["question_id"] }.uniq
+  @user_s_answered_questions = load_data_of(:questions).select { |_, infs| user_s_answers_question_ids.include?(infs["id"]) }
+  erb :user
+end
+
 private
+
+  def find_user_latest_answered_id_for_question(user_id, question_id)
+    answers = find_answers_by_question_id(question_id)
+    user_answers = answers.select { |id, infs| infs["user_id"] == user_id }
+    user_answers.keys.max
+  end
 
   def find_user_by_id(user_id)
     load_data_of(:users).select { |name, infs| infs["id"] == user_id }
@@ -122,7 +139,7 @@ private
   def find_answers_by_question_id(question_id)
     answers = load_data_of(:answers)
     return nil unless answers
-    answers.values.select { |answer| answer["question_id"] == question_id }
+    answers.select { |id, answer| answer["question_id"] == question_id }
   end
 
   def write_new_answer(answer)

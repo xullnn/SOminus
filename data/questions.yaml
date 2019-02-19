@@ -1,14 +1,4 @@
 
-test question:
-  id: '1'
-  user_id: '1'
-  description: Welcome. You're currently signed in as "xullnn"
-
-another question:
-  id: '2'
-  user_id: '1'
-  description: Welcome. You're currently signed in as "xullnn"
-
 Use Ruby's select method on a Rails relation and update it:
   id: '3'
   user_id: '1'

@@ -27,6 +27,7 @@ button {
 
 .user_state {
   margin-top: 200px;
+  clear: both;
 }
 
 #query_form {
@@ -55,4 +56,16 @@ button {
 
 .answer_question {
   margin-top: 2em;
+}
+
+.asked_questions {
+  float: left;
+}
+
+.answered_questions {
+  float: right;
+}
+
+.asked_by {
+  color: grey;
 }

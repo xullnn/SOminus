@@ -1,20 +1,27 @@
 <div class="question">
   <p><strong><%= @question.first %></strong></p>
   <p class="description"><%= @question.last["description"] %></p>
+  <span class="asked_by">
+    (asked by:
+    <a href="/users/<%= @asker.to_a.flatten.last["id"] %>">
+      <%= @asker.to_a.flatten.first %>
+    </a>)
+  </span>
 <div>
 
 <hr>
 
 <h4>Answers:</h4>
 <div class="answers">
-  <% if @answers.nil? %>
+  <% if @answers.nil? || @answers.empty? %>
     <p>Currently this question has no answer.</p>
   <% else %>
-    <% @answers.each do |answer| %>
-      <div class="answer_body">
+    <% @answers.each do |id, answer| %>
+      <div class="answer_body" id="answer_<%= id %>">
         <p><%= answer["content"] %></p>
         <div class="answerer">
-          <p>answered by: "<%= find_user_by_id(answer["user_id"]).to_a.flatten.first %>"</p>
+          <% answerer = find_user_by_id(answer["user_id"]).to_a.flatten %>
+          <p>answered by: <a href="/users/<%= answerer.last["id"] %>"><%= answerer.first %></a></p>
         </div>
       </div>
     <% end %>

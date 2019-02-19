@@ -7,3 +7,12 @@ xullnn:
     cost: 10
     salt: "$2a$10$ipHuloD3d0rNLoIgy.IT1."
     checksum: lWtDE87BgP6.sAUgC4vKfuQw3k3ELvm
+
+Bob:
+  id: '2'
+  password: !ruby/string:BCrypt::Password
+    str: "$2a$10$T.66uJcKBoXMrvEvmZ53i.zHfOoBae3ocdxnZdTjAjEDO4sNX9CCm"
+    version: 2a
+    cost: 10
+    salt: "$2a$10$T.66uJcKBoXMrvEvmZ53i."
+    checksum: zHfOoBae3ocdxnZdTjAjEDO4sNX9CCm

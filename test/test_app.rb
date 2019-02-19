@@ -120,6 +120,7 @@ class AppTest < Minitest::Test
 
   def test_view_single_question
     # need not user credential
+    create_test_user("test", "123456")
     create_test_questions
     get "/questions/2"
     assert_includes last_response.body, "This is a test question"
@@ -163,10 +164,33 @@ class AppTest < Minitest::Test
     post "/questions/3/answers", { content: "Some answer" }, login_for_test
     assert_equal 302, last_response.status
     assert_equal "Successfully posted an answer.", last_request_session[:message]
+
     get last_response["Location"]
     assert_includes last_response.body, "test 3"
-    assert_includes last_response.body, "answered by: \"test\""
+    assert_includes last_response.body, "answered by: <a href=\"/users/1\">test</a>"
     assert_includes last_response.body, "Some answer"
+  end
+
+  def test_view_user_link_in_answer
+    create_test_questions
+    create_test_user("test", "123456")
+    post "/questions/3/answers", { content: "Some answer" }, login_for_test
+
+    get "/questions/3"
+    assert_includes last_response.body, "<a href=\"/users/1\">test</a>"
+  end
+
+  def test_user_page
+    create_test_questions
+    create_test_user("test", "123456")
+    post "/questions/3/answers", { content: "Some answer" }, login_for_test
+    post "/questions/5/answers", { content: "test content" }
+
+    get "/users/1"
+    assert_includes last_response.body, "Asked Questions:"
+    assert_includes last_response.body, "Answered Questions:"
+
+    (1..5).each { |n| assert_includes last_response.body, "test #{n}" }
   end
 
   def create_test_user(username, password)

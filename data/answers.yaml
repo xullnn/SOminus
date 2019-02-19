@@ -18,3 +18,46 @@
     styled in a way that is easily distinguished from the rest of the page. This will
     help attract the user's attention to the information in the message that would
     otherwise be easy to miss.
+
+'4':
+  question_id: '1'
+  user_id: '1'
+  content: "If you do not specify a border for the table, it will be displayed without
+    borders.\r\n\r\nA border is set using the CSS border property:"
+
+'5':
+  question_id: '3'
+  user_id: '2'
+  content: "HTTP Status Codes\r\nhttpstatuses.com is an easy to reference database
+    of HTTP Status Codes with their definitions and helpful code references all in
+    one place. Visit an individual status code via httpstatuses.com/code or browse
+    the list below."
+
+'6':
+  question_id: '3'
+  user_id: '1'
+  content: "FWIW, I'm not clear on why this is, but once I moved my Sinatra app to
+    a multiinstance environment, I started having a ton of issues with the session
+    disappearing.\r\n\r\n"
+
+'7':
+  question_id: '4'
+  user_id: '2'
+  content: "\r\nHTTP Status Codes\r\nhttpstatuses.com is an easy to reference database
+    of HTTP Status Codes with their definitions and helpful code references all in
+    one place. Visit an individual status code via httpstatuses.com/code or browse
+    the list below."
+
+'8':
+  question_id: '4'
+  user_id: '1'
+  content: "FWIW, I'm not clear on why this is, but once I moved my Sinatra app to
+    a multiinstance environment, I started having a ton of issues with the session
+    disappearing.\r\n\r\n"
+
+'9':
+  question_id: '4'
+  user_id: '2'
+  content: "FWIW, I'm not clear on why this is, but once I moved my Sinatra app to
+    a multiinstance environment, I started having a ton of issues with the session
+    disappearing.\r\n\r\n"
