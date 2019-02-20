@@ -1,18 +1,27 @@
 
-xullnn:
-  id: '1'
+'1': !ruby/hash:Sinatra::IndifferentHash
+  name: abc
   password: !ruby/string:BCrypt::Password
-    str: "$2a$10$ipHuloD3d0rNLoIgy.IT1.lWtDE87BgP6.sAUgC4vKfuQw3k3ELvm"
+    str: "$2a$10$4rYa7PoiUf.8/BXKeM7GO.4rJBW8/Kqrc5eN6OZjjldhV2IWS6eiy"
     version: 2a
     cost: 10
-    salt: "$2a$10$ipHuloD3d0rNLoIgy.IT1."
-    checksum: lWtDE87BgP6.sAUgC4vKfuQw3k3ELvm
+    salt: "$2a$10$4rYa7PoiUf.8/BXKeM7GO."
+    checksum: 4rJBW8/Kqrc5eN6OZjjldhV2IWS6eiy
 
-Bob:
-  id: '2'
+'2': !ruby/hash:Sinatra::IndifferentHash
+  name: admin
   password: !ruby/string:BCrypt::Password
-    str: "$2a$10$T.66uJcKBoXMrvEvmZ53i.zHfOoBae3ocdxnZdTjAjEDO4sNX9CCm"
+    str: "$2a$10$G1nwmkPxv2h0rTNvQDwAEOFfhcS5hq2lYhLTrPgA31YerKXj4Jmkq"
     version: 2a
     cost: 10
-    salt: "$2a$10$T.66uJcKBoXMrvEvmZ53i."
-    checksum: zHfOoBae3ocdxnZdTjAjEDO4sNX9CCm
+    salt: "$2a$10$G1nwmkPxv2h0rTNvQDwAEO"
+    checksum: FfhcS5hq2lYhLTrPgA31YerKXj4Jmkq
+
+'3': !ruby/hash:Sinatra::IndifferentHash
+  name: Emily
+  password: !ruby/string:BCrypt::Password
+    str: "$2a$10$JoQBp8SpQgSZ6pL7G7.29OrbiwZhHW/48.wMPeZ8IcoFAfrNVA9Ue"
+    version: 2a
+    cost: 10
+    salt: "$2a$10$JoQBp8SpQgSZ6pL7G7.29O"
+    checksum: rbiwZhHW/48.wMPeZ8IcoFAfrNVA9Ue
