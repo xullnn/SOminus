@@ -1,13 +1,13 @@
 <form class="new_question" action="/questions" method="post">
   <div>
     <label>Question Title</label>
-    <input name="title">
+    <input name="title" value="<%= params[:title] || ""%>">
   </div>
 
   <div>
     <label>Description:</label>
     <div>
-      <textarea name="description" rows="8" cols="80"></textarea>
+      <textarea name="description" rows="8" cols="80" value="<%= params[:description] || ""%>"></textarea>
     </div>
   </div>
 

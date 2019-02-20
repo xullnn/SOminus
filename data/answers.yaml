@@ -1,79 +1,98 @@
 
-'1':
-  question_id: '3'
-  user_id: '1'
-  content: Specifies the distance between the borders of adjacent cells in px, cm,
-    etc. Negative values are not allowed.
-
-'2':
-  question_id: '3'
-  user_id: '1'
-  content: "\tSpecifies the distance between the borders of adjacent cells in px,
-    cm, etc. Negative values are not allowed."
-
-'3':
-  question_id: '3'
-  user_id: '1'
-  content: When a message is displayed to a user anywhere on the site, it should be
-    styled in a way that is easily distinguished from the rest of the page. This will
-    help attract the user's attention to the information in the message that would
-    otherwise be easy to miss.
-
-'4':
+'1': !ruby/hash:Sinatra::IndifferentHash
+  content: "If it's a directory relative to the file that does the requiring (e.g.
+    you want to load all files in the lib directory):\r\n\r\nDir[File.dirname(__FILE__)
+    + '/lib/*.rb'].each {|file| require file }\r\nEdit: Based on comments below, an
+    updated version:\r\n\r\nDir[File.join(__dir__, 'lib', '*.rb')].each { |file| require
+    file }"
   question_id: '1'
   user_id: '1'
-  content: "If you do not specify a border for the table, it will be displayed without
-    borders.\r\n\r\nA border is set using the CSS border property:"
 
-'5':
+'2': !ruby/hash:Sinatra::IndifferentHash
+  content: Eh, I think the focus on getting improved tools is misplaced. Yeah, it
+    would be great to see improvements to the review queues, more power to close/delete
+    problem questions, etc, but really... the only real issue I personally have with
+    SO is this seemingly constant push to appease the very users who are posting these
+    problem questions. We should instead be focusing on setting better expectations
+    for new users (and veteran users who seem to think this site is a helpdesk) so
+    that when they do inevitably post a question that receives a downvote, they won't
+    rage quit or resort to hateful comments.
+  question_id: '2'
+  user_id: '1'
+
+'3': !ruby/hash:Sinatra::IndifferentHash
+  content: "Ruby uses the case expression instead.\r\n\r\ncase x\r\nwhen 1..5\r\n
+    \ \"It's between 1 and 5\"\r\nwhen 6\r\n  \"It's 6\"\r\nwhen \"foo\", \"bar\"\r\n
+    \ \"It's either foo or bar\"\r\nwhen String\r\n  \"You passed a string\"\r\nelse\r\n
+    \ \"You gave me #{x}  I have no idea what to do with that.\"\r\nend\r\nRuby
+    compares the object in the when clause with the object in the case clause using
+    the === operator. For example, 1..5 === x, and not x === 1..5.\r\n\r\nThis allows
+    for sophisticated when clauses as seen above. Ranges, classes and all sorts of
+    things can be tested for rather than just equality.\r\n\r\nUnlike switch statements
+    in many other languages, Ruby’s case does not have fallthrough, so there is no
+    need to end each when with a break. You can also specify multiple matches in a
+    single when clause like when \"foo\", \"bar\"."
   question_id: '3'
   user_id: '2'
-  content: "HTTP Status Codes\r\nhttpstatuses.com is an easy to reference database
-    of HTTP Status Codes with their definitions and helpful code references all in
-    one place. Visit an individual status code via httpstatuses.com/code or browse
-    the list below."
 
-'6':
-  question_id: '3'
-  user_id: '1'
-  content: "FWIW, I'm not clear on why this is, but once I moved my Sinatra app to
-    a multiinstance environment, I started having a ton of issues with the session
-    disappearing.\r\n\r\n"
-
-'7':
+'4': !ruby/hash:Sinatra::IndifferentHash
+  content: "There is an in? method in ActiveSupport (part of Rails) since v3.1, as
+    pointed out by @campaterson. So within Rails, or if you require 'active_support',
+    you can write:\r\n\r\n'Unicorn'.in?(['Cat', 'Dog', 'Bird']) # => false\r\nOTOH,
+    there is no in operator or #in? method in Ruby itself, even though it has been
+    proposed before, in particular by Yusuke Endoh a top notch member of rubycore.\r\n\r\nAs
+    pointed out by others, the reverse method include? exists, for all Enumerables
+    including Array, Hash, Set, Range:\r\n\r\n['Cat', 'Dog', 'Bird'].include?('Unicorn')
+    # => false"
   question_id: '4'
   user_id: '2'
-  content: "\r\nHTTP Status Codes\r\nhttpstatuses.com is an easy to reference database
-    of HTTP Status Codes with their definitions and helpful code references all in
-    one place. Visit an individual status code via httpstatuses.com/code or browse
-    the list below."
 
-'8':
-  question_id: '4'
-  user_id: '1'
-  content: "FWIW, I'm not clear on why this is, but once I moved my Sinatra app to
-    a multiinstance environment, I started having a ton of issues with the session
-    disappearing.\r\n\r\n"
+'5': !ruby/hash:Sinatra::IndifferentHash
+  content: "Ruby has a few methods for changing the case of strings. To convert to
+    lowercase, use downcase:\r\n\r\n\"hello James!\".downcase    #=> \"hello james!\"\r\nSimilarly,
+    upcase capitalizes every letter and capitalize capitalizes the first letter of
+    the string but lowercases the rest:\r\n\r\n\"hello James!\".upcase      #=> \"HELLO
+    JAMES!\"\r\n\"hello James!\".capitalize  #=> \"Hello james!\"\r\n\"hello James!\".titleize
+    \   #=> \"Hello James!\"\r\nIf you want to modify a string in place, you can add
+    an exclamation point to any of those methods:\r\n\r\nstring = \"hello James!\"\r\nstring.downcase!\r\nstring
+    \  #=> \"hello james!\"\r\nRefer to the documentation for String for more information.\r\n\r\n"
+  question_id: '5'
+  user_id: '3'
 
-'9':
-  question_id: '4'
+'6': !ruby/hash:Sinatra::IndifferentHash
+  content: Don't forget any? which is generally !empty?. In Rails I typically check
+    for the presence of something at the end of a statement with if something or unless
+    something then use blank? where needed since it seems to work everywhere.
+  question_id: '6'
+  user_id: '3'
+
+'7': !ruby/hash:Sinatra::IndifferentHash
+  content: "options and dependencies need to be inside arrays:\r\n\r\nnamespace :thing
+    do\r\n  desc \"it does a thing\"\r\n  task :work, [:option, :foo, :bar] do |task,
+    args|\r\n    puts \"work\", args\r\n  end\r\n\r\n  task :another, [:option, :foo,
+    :bar] do |task, args|\r\n    puts \"another #{args}\"\r\n    Rake::Task[\"thing:work\"].invoke(args[:option],
+    args[:foo], args[:bar])\r\n    # or splat the args\r\n    # Rake::Task[\"thing:work\"].invoke(*args)\r\n
+    \ end\r\n\r\nend\r\nThen\r\n\r\nrake thing:work[1,2,3]\r\n=> work: {:option=>\"1\",
+    :foo=>\"2\", :bar=>\"3\"}\r\n\r\nrake thing:another[1,2,3]\r\n=> another {:option=>\"1\",
+    :foo=>\"2\", :bar=>\"3\"}\r\n=> work: {:option=>\"1\", :foo=>\"2\", :bar=>\"3\"}"
+  question_id: '7'
+  user_id: '3'
+
+'8': !ruby/hash:Sinatra::IndifferentHash
+  content: "In addition to answer by kch (I didn't find how to leave a comment to
+    that, sorry):\r\n\r\nYou don't have to specify variables as ENV variables before
+    the rake command. You can just set them as usual command line parameters like
+    that:\r\n\r\nrake mytask var=foo\r\nand access those from your rake file as ENV
+    variables like such:\r\n\r\np ENV['var'] # => \"foo\""
+  question_id: '7'
   user_id: '2'
-  content: "FWIW, I'm not clear on why this is, but once I moved my Sinatra app to
-    a multiinstance environment, I started having a ton of issues with the session
-    disappearing.\r\n\r\n"
 
 '10': !ruby/hash:Sinatra::IndifferentHash
-  content: "    case clause using the === operator. For example, 1..5 === x, and not
-    x === 1..5.\\r\\n\\r\\nThis\r\n    allows for sophisticated when clauses as seen
-    above. Ranges, classes and all sorts\r\n   of things can be tested for rather
-    than just equality.\"\r\n"
-  question_id: '1'
-  user_id: '2'
-
-'11': !ruby/hash:Sinatra::IndifferentHash
-  content: "tra2.0.5/lib/sinatra/base.rb:913:in `call'\r\n    /Users/xullnn/.rvm/gems/ruby2.5.3/gems/rackprotection2.0.5/lib/rack/protection/xss_header.rb:18:in
-    `call'\r\n    /Users/xullnn/.rvm/gems/ruby2.5.3/gems/rackprotection2.0.5/lib/rack/protection/base.rb:50:in
-    `call'\r\n    /Users/xullnn/.rvm/gems/ruby2.5.3/gems/rackprotection2.0.5/lib/rack/protection/base.rb:50:in
-    `call'\r\n    /Users/xullnn/.rvm/gems/ruby2.5.3/gems/rackprotection2.0.5/lib/rack/protection/path_travers"
-  question_id: '2'
-  user_id: '3'
+  content: "If you want to pass named arguments (e.g. with standard OptionParser)
+    you could use something like this:\r\n\r\n$ rake user:create  user test@example.com
+    pass 123\r\nnote the , that's necessary for bypassing standard Rake arguments.
+    Should work with Rake 0.9.x, <= 10.3.x.\r\n\r\nNewer Rake has changed its parsing
+    of , and now you have to make sure it's not passed to the OptionParser#parse
+    method, for example with parser.parse!(ARGV[2..1])"
+  question_id: '7'
+  user_id: '1'

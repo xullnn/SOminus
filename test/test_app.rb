@@ -115,7 +115,7 @@ class AppTest < Minitest::Test
     post "/questions", { title: 'test question', description: "some text" }
     assert_equal "You need to sign in first to perform this operation.", last_request_session[:message]
 
-    post "/questions", { title: 'test question', description: "some text" }, login_for_test
+    post "/questions", { title: 'test question', description: "some text some text" }, login_for_test
     assert_equal "Successfully posted a question.", last_request_session[:message]
   end
 
@@ -130,7 +130,7 @@ class AppTest < Minitest::Test
   def test_search_questions
     create_test_questions
     get "/question?query=test+5"
-    assert_includes last_response.body, "test 5"
+    assert_includes last_response.body, "test question 5"
 
     get "/question?query=test+6"
     assert_equal "No results were found for \"test 6\".", last_request_session[:message]
@@ -167,7 +167,7 @@ class AppTest < Minitest::Test
     assert_equal "Successfully posted an answer.", last_request_session[:message]
 
     get last_response["Location"]
-    assert_includes last_response.body, "test 3"
+    assert_includes last_response.body, "test question 3"
     assert_includes last_response.body, "answered by: <a href=\"/users/1\">test</a>"
     assert_includes last_response.body, "Some answer"
   end
@@ -191,7 +191,31 @@ class AppTest < Minitest::Test
     assert_includes last_response.body, "Asked Questions:"
     assert_includes last_response.body, "Answered Questions:"
 
-    (1..5).each { |n| assert_includes last_response.body, "test #{n}" }
+    (1..5).each { |n| assert_includes last_response.body, "test question #{n}" }
+  end
+
+  def test_question_create_validation
+    create_test_user("test", "123456")
+    post "/questions", { title: "abc", description: "test question"}, login_for_test
+
+    assert_equal 422, last_response.status
+    assert_includes last_response.body, "Question title should be between 10 and 120 characters."
+
+    post "/questions", { title: "abcdefghijk", description: "a" * 2001 }
+
+    assert_equal 422, last_response.status
+    assert_includes last_response.body, "Question description should be between 10 and 2000 characters."
+  end
+
+  def test_answer_create_valiattion
+    create_test_questions
+    create_test_user("test", "123456")
+
+    post "/questions/3/answers", { content: "abc" }, login_for_test
+    assert_equal "Answer length should be between 10 and 3000 characters.", last_request_session[:message]
+
+    post "/questions/3/answers", { content: "a" * 3001 }, login_for_test
+    assert_equal "Answer length should be between 10 and 3000 characters.", last_request_session[:message]
   end
 
   def create_test_user(name, password)
@@ -200,7 +224,7 @@ class AppTest < Minitest::Test
 
   def create_test_questions
     (1..5).each do |id|
-      Question.create({ "title" => "test #{id}", "user_id" => "1", "description" => "This is a test question"})
+      Question.create({ "title" => "test question #{id}", "user_id" => "1", "description" => "This is a test question"})
     end
   end
 

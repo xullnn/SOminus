@@ -1,24 +1,50 @@
 
 '1': !ruby/hash:Sinatra::IndifferentHash
-  title: test question
-  description: "\"I have a value 'Dog' and an array ['Cat', 'Dog', 'Bird'].\\r\\n\\r\\nHow\r\n
-    \   do I check if it exists in the array without looping through it? Is there
-    a simple\r\n    way of checking if the value exists, nothing more?\""
-  user_id: '2'
+  title: " Best way to require all files from a directory in ruby?"
+  description: What's the best way to require all files from a directory in ruby ?
+  user_id: '3'
 
 '2': !ruby/hash:Sinatra::IndifferentHash
-  title: How to pass Function as parameter to computeifAbsent Methods in java 8
-  description: "/ruby2.5.3/gems/sinatra2.0.5/lib/sinatra/base.rb:1040:in `block
-    in process_route'\r\n    /Users/xullnn/.rvm/gems/ruby2.5.3/gems/sinatra2.0.5/lib/sinatra/base.rb:1038:in
-    `catch'\r\n    /Users/xullnn/.rvm/gems/ruby2.5.3/gems/sinatra2.0.5/lib/sinatra/base.rb:1038:in
-    `process_route'\r\n    /Users/xullnn/.rvm/gems/ruby2.5.3/gems/sinatra2.0.5/lib/sinatra/base.rb:990:in
-    `block in route!'\r\n    /Users/xullnn/.rvm/gems/ruby2.5.3/gems/sinatra2.0.5/lib/sinatra/base.rb:989:in
-    `each'\r\n    /Users/xullnn/.rvm/gems/ruby2.5.3/gems/sinatra2.0.5/lib/sinatra/base.rb:989:in
-    `route!'\r\n    /Users/xullnn/.rvm/gems/ruby2.5.3/gems/sinatra2.0.5/lib/sinatra/base.rb:1097:in
-    `block in dispatch!'\r\n    /Users/xullnn/.rvm/gems/ruby2.5.3/gems/sinatra2.0.5/lib/sinatra/base.rb:1076:in
-    `block in invoke'\r\n    /Users/xullnn/.rvm/gems/ruby2.5.3/gems/sinatra2.0.5/lib/sinatra/base.rb:1076:in
-    `catch'\r\n    /Users/xullnn/.rvm/gems/ruby2.5.3/gems/sinatra2.0.5/lib/sinatra/base.rb:1076:in
-    `invoke'\r\n    /Users/xullnn/.rvm/gems/ruby2.5.3/gems/sinatra2.0.5/lib/sinatra/base.rb:1094:in
-    `dispatch!'\r\n    /Users/xullnn/.rvm/gems/ruby2.5.3/gems/sinatra2.0.5/lib/sinatra/base.rb:924:in
-    `block in call!'"
+  title: 'Divisions, disappointment and pillory: how can we make meta a more enjoyable,
+    productive space for everyone?'
+  description: "Bear with me. This is an attempt to sweep together a lot of the angst
+    on the site in an attempt to deal with it. This isn't a question. It's literally
+    a discussion. I'm sharing my ideas and you can share yours.\r\n\r\nSome causes...\r\nIt
+    goes without saying that some of the committed users of the site have had an increasing
+    feeling of disenfranchisement. There has been both a gradual and a sudden cause
+    for this."
+  user_id: '3'
+
+'3': !ruby/hash:Sinatra::IndifferentHash
+  title: How to write a switch statement in Ruby
+  description: How do I write a switch statement in Ruby?
+  user_id: '1'
+
+'4': !ruby/hash:Sinatra::IndifferentHash
+  title: Check if a value exists in an array in Ruby
+  description: How do I check if it exists in the array without looping through it?
+    Is there a simple way of checking if the value exists, nothing more?
+  user_id: '1'
+
+'5': !ruby/hash:Sinatra::IndifferentHash
+  title: How to convert a string to lower or upper case in Ruby
+  description: How do I take a string and convert it to lower or upper case in Ruby?
+  user_id: '2'
+
+'6': !ruby/hash:Sinatra::IndifferentHash
+  title: A concise explanation of nil v. empty v. blank in Ruby on Rails
+  description: "I find myself repeatedly looking for a clear definition of the differences
+    of nil?, blank?, and empty? in Ruby on Rails. Here's the closest I've come:\r\n\r\nblank?
+    objects are false, empty, or a whitespace string. For example, \"\", \" \", nil,
+    [], and {} are blank.\r\n\r\nnil? objects are instances of NilClass.\r\n\r\nempty?
+    objects are classspecific, and the definition varies from class to class. A string
+    is empty if it has no characters, and an array is empty if it contains no items.\r\n\r\nIs
+    there anything missing, or a tighter comparison that can be made?"
+  user_id: '2'
+
+'7': !ruby/hash:Sinatra::IndifferentHash
+  title: How to pass command line arguments to a rake task
+  description: "I have a rake task that needs to insert a value into multiple databases.\r\n\r\nI'd
+    like to pass this value into the rake task from the command line, or from another
+    rake task.\r\n\r\nHow can I do this?"
   user_id: '3'

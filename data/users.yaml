@@ -1,27 +1,27 @@
 
 '1': !ruby/hash:Sinatra::IndifferentHash
-  name: abc
-  password: !ruby/string:BCrypt::Password
-    str: "$2a$10$4rYa7PoiUf.8/BXKeM7GO.4rJBW8/Kqrc5eN6OZjjldhV2IWS6eiy"
-    version: 2a
-    cost: 10
-    salt: "$2a$10$4rYa7PoiUf.8/BXKeM7GO."
-    checksum: 4rJBW8/Kqrc5eN6OZjjldhV2IWS6eiy
-
-'2': !ruby/hash:Sinatra::IndifferentHash
-  name: admin
-  password: !ruby/string:BCrypt::Password
-    str: "$2a$10$G1nwmkPxv2h0rTNvQDwAEOFfhcS5hq2lYhLTrPgA31YerKXj4Jmkq"
-    version: 2a
-    cost: 10
-    salt: "$2a$10$G1nwmkPxv2h0rTNvQDwAEO"
-    checksum: FfhcS5hq2lYhLTrPgA31YerKXj4Jmkq
-
-'3': !ruby/hash:Sinatra::IndifferentHash
   name: Emily
   password: !ruby/string:BCrypt::Password
-    str: "$2a$10$JoQBp8SpQgSZ6pL7G7.29OrbiwZhHW/48.wMPeZ8IcoFAfrNVA9Ue"
+    str: "$2a$10$9B./DVFsKX2/0nG7M/IhdeKQ5BHIYPl2g1TvwtRNHIdfMS6Ji51T2"
     version: 2a
     cost: 10
-    salt: "$2a$10$JoQBp8SpQgSZ6pL7G7.29O"
-    checksum: rbiwZhHW/48.wMPeZ8IcoFAfrNVA9Ue
+    salt: "$2a$10$9B./DVFsKX2/0nG7M/Ihde"
+    checksum: KQ5BHIYPl2g1TvwtRNHIdfMS6Ji51T2
+
+'2': !ruby/hash:Sinatra::IndifferentHash
+  name: Bob
+  password: !ruby/string:BCrypt::Password
+    str: "$2a$10$n2fmhFcgz5jbGnKoDOysIuTGmrPgpntVlw6KVDAT4pOfDFVqB1BPu"
+    version: 2a
+    cost: 10
+    salt: "$2a$10$n2fmhFcgz5jbGnKoDOysIu"
+    checksum: TGmrPgpntVlw6KVDAT4pOfDFVqB1BPu
+
+'3': !ruby/hash:Sinatra::IndifferentHash
+  name: Alice
+  password: !ruby/string:BCrypt::Password
+    str: "$2a$10$WRO3XAz917vcDLAYycu.ROZQumk129AgHfwpgnhYjKVCyzFhIXfcm"
+    version: 2a
+    cost: 10
+    salt: "$2a$10$WRO3XAz917vcDLAYycu.RO"
+    checksum: ZQumk129AgHfwpgnhYjKVCyzFhIXfcm

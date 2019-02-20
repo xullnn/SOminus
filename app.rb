@@ -1,4 +1,6 @@
 # require files in /objects
+require_relative "./som_base.rb"
+
 Dir.children("objects").each do |f|
   require File.expand_path("../objects/#{f}", __FILE__)
 end
@@ -64,6 +66,7 @@ end
 
 post "/questions" do
   validate_user
+  validate_question(params)
   params["user_id"] = current_user.id
   Question.create(params)
   session[:message] = "Successfully posted a question."
@@ -100,6 +103,7 @@ end
 
 post "/questions/:question_id/answers" do
   validate_user
+  validate_answer(params)
   params["user_id"] = current_user.id
   Answer.create(params)
   session[:message] = "Successfully posted an answer."
@@ -116,6 +120,25 @@ get "/users/:id" do
 end
 
 private
+
+  def validate_question(params)
+    if !(10..120).cover?(params[:title].strip.size)
+      session[:message] = "Question title should be between 10 and 120 characters."
+      status 422
+      halt erb(:new_question)
+    elsif !(10..2000).cover?(params[:description].strip.size)
+      session[:message] = "Question description should be between 10 and 2000 characters."
+      status 422
+      halt erb(:new_question)
+    end
+  end
+
+  def validate_answer(params)
+    unless (10..3000).cover?(params[:content].strip.size)
+      session[:message] = "Answer length should be between 10 and 3000 characters."
+      redirect back
+    end
+  end
 
   def find_user_latest_answered_id_for_question(user_id, question_id)
     answers = Answer.find_all_by(:question_id, question_id)
