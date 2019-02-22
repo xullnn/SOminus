@@ -12,7 +12,7 @@ class SOMBase
   def self.create(params)
     hash = { new_id_of(data_name) => params }
     File.open(File.join(data_path, "#{data_name.to_s}.yaml"), "a+") do |f|
-      f.write(Psych.dump(hash.to_h).delete("---"))
+      f.write(Psych.dump(hash.to_h).delete_prefix("---\n"))
     end
     new(hash)
   end
@@ -60,5 +60,30 @@ class SOMBase
   def self.load_data_of(type)
     filename = type.to_s + ".yaml"
     Psych.load_file(File.join(data_path, filename))
+  end
+
+  def self.add_attributes_to(type, default="", *columns)
+    # need to add attr_accessor into Object's file
+    data = SOMBase.load_data_of(type)
+    columns.each do |column|
+      data.values.each do |attrs|
+        attrs[column.to_s] = default
+      end
+    end
+    File.open(File.join(data_path, "#{type.to_s}.yaml"), "w+") do |f|
+      f.write(Psych.dump(data).delete_prefix("---\n"))
+    end
+  end
+
+  def self.update(id, attrs)
+    data = load_data_of(data_name)
+    obj_info = data[id]
+    attrs.each do |k, v|
+      v = v.to_s if v.is_a?(Array)
+      obj_info[k] = v
+    end
+    File.open(File.join(data_path, "#{data_name.to_s}.yaml"), "w+") do |f|
+      f.write(Psych.dump(data).delete_prefix("---\n"))
+    end
   end
 end

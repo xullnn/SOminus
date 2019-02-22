@@ -1,4 +1,3 @@
-
 '1': !ruby/hash:Sinatra::IndifferentHash
   content: "If it's a directory relative to the file that does the requiring (e.g.
     you want to load all files in the lib directory):\r\n\r\nDir[File.dirname(__FILE__)
@@ -7,7 +6,7 @@
     file }"
   question_id: '1'
   user_id: '1'
-
+  votes_count: 0
 '2': !ruby/hash:Sinatra::IndifferentHash
   content: Eh, I think the focus on getting improved tools is misplaced. Yeah, it
     would be great to see improvements to the review queues, more power to close/delete
@@ -19,22 +18,22 @@
     rage quit or resort to hateful comments.
   question_id: '2'
   user_id: '1'
-
+  votes_count: -1
 '3': !ruby/hash:Sinatra::IndifferentHash
   content: "Ruby uses the case expression instead.\r\n\r\ncase x\r\nwhen 1..5\r\n
     \ \"It's between 1 and 5\"\r\nwhen 6\r\n  \"It's 6\"\r\nwhen \"foo\", \"bar\"\r\n
     \ \"It's either foo or bar\"\r\nwhen String\r\n  \"You passed a string\"\r\nelse\r\n
-    \ \"You gave me #{x}  I have no idea what to do with that.\"\r\nend\r\nRuby
-    compares the object in the when clause with the object in the case clause using
-    the === operator. For example, 1..5 === x, and not x === 1..5.\r\n\r\nThis allows
-    for sophisticated when clauses as seen above. Ranges, classes and all sorts of
-    things can be tested for rather than just equality.\r\n\r\nUnlike switch statements
-    in many other languages, Ruby’s case does not have fallthrough, so there is no
-    need to end each when with a break. You can also specify multiple matches in a
-    single when clause like when \"foo\", \"bar\"."
+    \ \"You gave me #{x}  I have no idea what to do with that.\"\r\nend\r\nRuby compares
+    the object in the when clause with the object in the case clause using the ===
+    operator. For example, 1..5 === x, and not x === 1..5.\r\n\r\nThis allows for
+    sophisticated when clauses as seen above. Ranges, classes and all sorts of things
+    can be tested for rather than just equality.\r\n\r\nUnlike switch statements in
+    many other languages, Ruby’s case does not have fallthrough, so there is no need
+    to end each when with a break. You can also specify multiple matches in a single
+    when clause like when \"foo\", \"bar\"."
   question_id: '3'
   user_id: '2'
-
+  votes_count: 0
 '4': !ruby/hash:Sinatra::IndifferentHash
   content: "There is an in? method in ActiveSupport (part of Rails) since v3.1, as
     pointed out by @campaterson. So within Rails, or if you require 'active_support',
@@ -46,7 +45,7 @@
     # => false"
   question_id: '4'
   user_id: '2'
-
+  votes_count: 1
 '5': !ruby/hash:Sinatra::IndifferentHash
   content: "Ruby has a few methods for changing the case of strings. To convert to
     lowercase, use downcase:\r\n\r\n\"hello James!\".downcase    #=> \"hello james!\"\r\nSimilarly,
@@ -58,14 +57,14 @@
     \  #=> \"hello james!\"\r\nRefer to the documentation for String for more information.\r\n\r\n"
   question_id: '5'
   user_id: '3'
-
+  votes_count: 0
 '6': !ruby/hash:Sinatra::IndifferentHash
   content: Don't forget any? which is generally !empty?. In Rails I typically check
     for the presence of something at the end of a statement with if something or unless
     something then use blank? where needed since it seems to work everywhere.
   question_id: '6'
   user_id: '3'
-
+  votes_count: 0
 '7': !ruby/hash:Sinatra::IndifferentHash
   content: "options and dependencies need to be inside arrays:\r\n\r\nnamespace :thing
     do\r\n  desc \"it does a thing\"\r\n  task :work, [:option, :foo, :bar] do |task,
@@ -77,7 +76,7 @@
     :foo=>\"2\", :bar=>\"3\"}\r\n=> work: {:option=>\"1\", :foo=>\"2\", :bar=>\"3\"}"
   question_id: '7'
   user_id: '3'
-
+  votes_count: 0
 '8': !ruby/hash:Sinatra::IndifferentHash
   content: "In addition to answer by kch (I didn't find how to leave a comment to
     that, sorry):\r\n\r\nYou don't have to specify variables as ENV variables before
@@ -86,13 +85,34 @@
     variables like such:\r\n\r\np ENV['var'] # => \"foo\""
   question_id: '7'
   user_id: '2'
-
+  votes_count: 0
 '10': !ruby/hash:Sinatra::IndifferentHash
   content: "If you want to pass named arguments (e.g. with standard OptionParser)
     you could use something like this:\r\n\r\n$ rake user:create  user test@example.com
     pass 123\r\nnote the , that's necessary for bypassing standard Rake arguments.
     Should work with Rake 0.9.x, <= 10.3.x.\r\n\r\nNewer Rake has changed its parsing
-    of , and now you have to make sure it's not passed to the OptionParser#parse
-    method, for example with parser.parse!(ARGV[2..1])"
+    of , and now you have to make sure it's not passed to the OptionParser#parse method,
+    for example with parser.parse!(ARGV[2..1])"
   question_id: '7'
   user_id: '1'
+  votes_count: 0
+'11': !ruby/hash:Sinatra::IndifferentHash
+  content: There are a number of ways that you can approach this problem. Depending
+    on how quickly you need the program to finish, you may prefer one approach over
+    another. For the sake of simplicity, and since you’re only a beginner, let’s assume
+    that you don’t have any time or space constraints; you can go with a naive approach.
+  question_id: '2'
+  user_id: '2'
+  votes_count: 1
+'12': !ruby/hash:Sinatra::IndifferentHash
+  content: Eh, I think the focus on getting improved tools is misplaced. Yeah, it
+    would be great to see improvements to the review queues, more power to close/delete
+    problem questions, etc, but really... the only real issue I personally have with
+    SO is this seemingly constant push to appease the very users who are posting these
+    problem questions. We should instead be focusing on setting better expectations
+    for new users (and veteran users who seem to think this site is a helpdesk) so
+    that when they do inevitably post a question that receives a downvote, they won't
+    rage quit or resort to hateful comments.
+  question_id: '2'
+  user_id: '2'
+  votes_count: -1

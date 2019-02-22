@@ -20,6 +20,7 @@ configure do
 end
 
 get "/" do
+  @latest_questions = Question.all.last(5)
   erb :index
 end
 
@@ -53,7 +54,7 @@ post "/users/signin" do
   redirect "/"
 end
 
-post "/users/signout" do
+get "/users/signout" do
   session.delete(:signed_in_as)
   session[:message] = "Successfully signed out."
   redirect "/"
@@ -119,7 +120,83 @@ get "/users/:id" do
   erb :user
 end
 
+post "/questions/:id/vote" do
+  validate_user
+  check_vote_validity_for_question(params[:id])
+  @question = Question.find_by(:id, params[:id])
+  @question.votes_count = (@question.votes_count.to_i + 1)
+  Question.update(params[:id], votes_count: @question.votes_count )
+  @user = current_user
+  votes = @user.voted_questions << params[:id].to_i
+  User.update(@user.id, voted_questions: votes)
+  session[:message] = "Vote successfully :)"
+  redirect "/questions/#{@question.id}"
+end
+
+post "/questions/:id/veto" do
+  validate_user
+  check_vote_validity_for_question(params[:id])
+  @question = Question.find_by(:id, params[:id])
+
+  @question.votes_count = (@question.votes_count.to_i - 1)
+  Question.update(params[:id], votes_count: @question.votes_count )
+  @user = current_user
+  votes = @user.voted_questions << params[:id].to_i
+  User.update(@user.id, voted_questions: votes)
+  session[:message] = "Veto successfully :("
+  redirect "/questions/#{@question.id}"
+end
+
+post "/answers/:id/vote" do
+  validate_user
+  check_vote_validity_for_answer(params[:id])
+
+  @answer = Answer.find_by(:id, params[:id])
+  @answer.votes_count = (@answer.votes_count.to_i + 1)
+  Answer.update(params[:id], votes_count: @answer.votes_count )
+  @user = current_user
+  votes = @user.voted_answers << params[:id].to_i
+  User.update(@user.id, voted_answers: votes)
+  session[:message] = "Vote successfully :)"
+  redirect "/questions/#{@answer.question_id}"
+end
+
+post "/answers/:id/veto" do
+  validate_user
+  check_vote_validity_for_answer(params[:id])
+
+  @answer = Answer.find_by(:id, params[:id])
+  @answer.votes_count = (@answer.votes_count.to_i - 1)
+  Answer.update(params[:id], votes_count: @answer.votes_count )
+  @user = current_user
+  votes = @user.voted_answers << params[:id].to_i
+  User.update(@user.id, voted_answers: votes)
+  session[:message] = "Veto successfully :("
+  redirect "/questions/#{@answer.question_id}"
+end
+
 private
+
+def check_vote_validity_for_question(question_id)
+  if current_user.voted_questions.include?(question_id.to_i)
+    @question = Question.find_by(:id, question_id)
+    @asker = User.find_by(:id, @question.user_id)
+    @answers = Answer.find_all_by(:question_id, question_id)
+    session[:message] = "You've voted for this question before."
+    redirect "/questions/#{@question.id}"
+  end
+end
+
+def check_vote_validity_for_answer(answer_id)
+  if current_user.voted_answers.include?(answer_id.to_i)
+    @answer = Answer.find_by(:id, answer_id)
+    @question = Question.find_by(:id, @answer.question_id)
+    @asker = User.find_by(:id, @answer.user_id)
+    @answers = Answer.find_all_by(:id, answer_id)
+    session[:message] = "You've voted for this answer before."
+    redirect "/questions/#{@question.id}"
+  end
+end
 
   def validate_question(params)
     if !(10..120).cover?(params[:title].strip.size)

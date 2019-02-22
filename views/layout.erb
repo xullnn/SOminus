@@ -6,9 +6,26 @@
 
   <body>
     <div class="main">
-      <div class="all_questions_link">
-        <a href="/questions">View all questions.</a> 
+      <div class="topnav">
+        <a class="active" href="/">Home</a>
+        <a href="/questions">Questions</a>
+        <a href="/new_question">| Ask Question</a>
+        <div class="search-container">
+          <form id="query_form" action="/question" method="get">
+            <input type="text" name="query" placeholder="Search.." size="50">
+            <button type="submit">Search</button>
+          </form>
+        </div>
+        <% if session[:signed_in_as] %>
+          <a href="/users/signout">Sign Out</a>
+        <% else %>
+          <a href="/users/new">Sign Up</a>
+          <a href="/users/signin">Sign In</a>
+        <% end %>
       </div>
+      <% if session[:signed_in_as] %>
+        <p id="login_info"><em>Welcome. You're currently signed in as "<%= session[:signed_in_as] %>"</em></p>
+      <% end %>
 
       <% if session[:message] %>
         <div class="flash_message">
@@ -19,20 +36,5 @@
       <%= yield %>
     </div>
 
-    <div class="user_state">
-      <% if session[:signed_in_as] %>
-        <p id="login_info"><em>Welcome. You're currently signed in as "<%= session[:signed_in_as] %>"</em></p>
-        <form action="/users/signout" method="post">
-          <button type="submit">Sign Out</button>
-        </form>
-      <% else %>
-        <a href="/users/new">Sign Up</a>
-        <a href="/users/signin">Sign In</a>
-      <% end %>
-    </div>
-
-    <div>
-      <footer><a href="/">Back to home page.</a></footer>
-    </div>
   </body>
 </html>

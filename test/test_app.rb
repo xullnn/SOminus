@@ -85,7 +85,7 @@ class AppTest < Minitest::Test
     assert_includes last_response.body, "Sign Out"
     assert_includes last_response.body, "Welcome. You're currently signed in as \"test\""
 
-    post "/users/signout"
+    get "/users/signout"
     assert_equal 302, last_response.status
 
     get last_response["Location"]
@@ -93,12 +93,12 @@ class AppTest < Minitest::Test
     assert_includes last_response.body, "Successfully signed out"
   end
 
-  def test_ask_question_button
+  def test_ask_question_link
     get "/"
-    refute_includes last_response.body, "Ask Question</button>"
+    assert_includes last_response.body, "Ask Question"
 
-    get "/", { }, login_for_test
-    assert_includes last_response.body, "Ask Question</button>"
+    get "/questions"
+    assert_includes last_response.body, "Ask Question"
   end
 
   def test_ask_new_question
@@ -218,14 +218,84 @@ class AppTest < Minitest::Test
     assert_equal "Answer length should be between 10 and 3000 characters.", last_request_session[:message]
   end
 
+  def test_vote_for_question
+    create_test_questions
+    create_test_user("test", "123456")
+
+    post "/questions/1/vote", {}
+    assert_equal last_request_session[:message], "You need to sign in first to perform this operation."
+
+    post "/questions/1/vote", {}, login_for_test
+    assert_equal last_request_session[:message], "Vote successfully :)"
+    assert_equal 1, Question.find_by(:id, "1").votes_count
+
+    post "/questions/1/vote", {}
+    assert_equal last_request_session[:message], "You've voted for this question before."
+    assert_equal 1, Question.find_by(:id, "1").votes_count
+  end
+
+  def test_veto_for_question
+    create_test_questions
+    create_test_user("test", "123456")
+
+    post "/questions/1/veto"
+    assert_equal last_request_session[:message], "You need to sign in first to perform this operation."
+
+    post "/questions/1/veto", {}, login_for_test
+    assert_equal last_request_session[:message], "Veto successfully :("
+    assert_equal -1, Question.find_by(:id, "1").votes_count
+
+    post "/questions/1/vote"
+    assert_equal last_request_session[:message], "You've voted for this question before."
+    assert_equal -1, Question.find_by(:id, "1").votes_count
+  end
+
+  def test_vote_for_answer
+    create_test_questions
+    create_test_user("test", "123456")
+    create_test_answer
+
+    post "/answers/1/vote"
+    assert_equal last_request_session[:message], "You need to sign in first to perform this operation."
+
+    post "/answers/1/vote", {}, login_for_test
+    assert_equal last_request_session[:message], "Vote successfully :)"
+    assert_equal 1, Answer.find_by(:id, "1").votes_count
+
+    post "/answers/1/vote"
+    assert_equal last_request_session[:message], "You've voted for this answer before."
+    assert_equal 1, Answer.find_by(:id, "1").votes_count
+  end
+
+  def test_veto_for_answer
+    create_test_questions
+    create_test_user("test", "123456")
+    create_test_answer
+
+    post "/answers/1/veto"
+    assert_equal last_request_session[:message], "You need to sign in first to perform this operation."
+
+    post "/answers/1/veto", {}, login_for_test
+    assert_equal last_request_session[:message], "Veto successfully :("
+    assert_equal -1, Answer.find_by(:id, "1").votes_count
+
+    post "/answers/1/veto"
+    assert_equal last_request_session[:message], "You've voted for this answer before."
+    assert_equal -1, Answer.find_by(:id, "1").votes_count
+  end
+
   def create_test_user(name, password)
-    User.create({ "name" => name, "password" => BCrypt::Password.create(password)})
+    User.create({ "name" => name, "voted_questions" => "[]", "voted_answers" => "[]", "password" => BCrypt::Password.create(password)})
   end
 
   def create_test_questions
     (1..5).each do |id|
       Question.create({ "title" => "test question #{id}", "user_id" => "1", "description" => "This is a test question"})
     end
+  end
+
+  def create_test_answer
+    Answer.create({ "content" => "If it's a directory relative to the file that does the requiring", "question_id" => "1", "user_id" => "1", "votes_count" => 0})
   end
 
   def login_for_test
