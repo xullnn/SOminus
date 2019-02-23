@@ -13,7 +13,7 @@
     feeling of disenfranchisement. There has been both a gradual and a sudden cause
     for this."
   user_id: '3'
-  votes_count: 3
+  votes_count: 4
 '3': !ruby/hash:Sinatra::IndifferentHash
   title: How to write a switch statement in Ruby
   description: How do I write a switch statement in Ruby?
@@ -24,7 +24,7 @@
   description: How do I check if it exists in the array without looping through it?
     Is there a simple way of checking if the value exists, nothing more?
   user_id: '1'
-  votes_count: -1
+  votes_count: 0
 '5': !ruby/hash:Sinatra::IndifferentHash
   title: How to convert a string to lower or upper case in Ruby
   description: How do I take a string and convert it to lower or upper case in Ruby?
@@ -47,4 +47,11 @@
     like to pass this value into the rake task from the command line, or from another
     rake task.\r\n\r\nHow can I do this?"
   user_id: '3'
+  votes_count: 2
+'8': !ruby/hash:Sinatra::IndifferentHash
+  title: How to convert a string to lower or upper case in Ruby
+  description: httpstatuses.com is an easy to reference database of HTTP Status Codes
+    with their definitions and helpful code references all in one place. Visit an
+    individual status code via httpstatuses.com/code or browse the list below.
+  user_id: '4'
   votes_count: 1

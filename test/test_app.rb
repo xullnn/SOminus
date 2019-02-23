@@ -63,7 +63,7 @@ class AppTest < Minitest::Test
   end
 
   def test_valid_signin
-    skip # why?
+    skip
     create_test_user("test", "123456")
 
     post "/users/signin", { name: "test", password: "123456" }

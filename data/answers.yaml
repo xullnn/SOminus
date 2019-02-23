@@ -33,7 +33,7 @@
     when clause like when \"foo\", \"bar\"."
   question_id: '3'
   user_id: '2'
-  votes_count: 0
+  votes_count: 2
 '4': !ruby/hash:Sinatra::IndifferentHash
   content: "There is an in? method in ActiveSupport (part of Rails) since v3.1, as
     pointed out by @campaterson. So within Rails, or if you require 'active_support',
@@ -45,7 +45,7 @@
     # => false"
   question_id: '4'
   user_id: '2'
-  votes_count: 1
+  votes_count: 2
 '5': !ruby/hash:Sinatra::IndifferentHash
   content: "Ruby has a few methods for changing the case of strings. To convert to
     lowercase, use downcase:\r\n\r\n\"hello James!\".downcase    #=> \"hello james!\"\r\nSimilarly,
@@ -76,7 +76,7 @@
     :foo=>\"2\", :bar=>\"3\"}\r\n=> work: {:option=>\"1\", :foo=>\"2\", :bar=>\"3\"}"
   question_id: '7'
   user_id: '3'
-  votes_count: 0
+  votes_count: 1
 '8': !ruby/hash:Sinatra::IndifferentHash
   content: "In addition to answer by kch (I didn't find how to leave a comment to
     that, sorry):\r\n\r\nYou don't have to specify variables as ENV variables before
@@ -85,7 +85,7 @@
     variables like such:\r\n\r\np ENV['var'] # => \"foo\""
   question_id: '7'
   user_id: '2'
-  votes_count: 0
+  votes_count: 1
 '10': !ruby/hash:Sinatra::IndifferentHash
   content: "If you want to pass named arguments (e.g. with standard OptionParser)
     you could use something like this:\r\n\r\n$ rake user:create  user test@example.com
@@ -95,7 +95,7 @@
     for example with parser.parse!(ARGV[2..1])"
   question_id: '7'
   user_id: '1'
-  votes_count: 0
+  votes_count: -1
 '11': !ruby/hash:Sinatra::IndifferentHash
   content: There are a number of ways that you can approach this problem. Depending
     on how quickly you need the program to finish, you may prefer one approach over
@@ -103,7 +103,7 @@
     that you don’t have any time or space constraints; you can go with a naive approach.
   question_id: '2'
   user_id: '2'
-  votes_count: 1
+  votes_count: 2
 '12': !ruby/hash:Sinatra::IndifferentHash
   content: Eh, I think the focus on getting improved tools is misplaced. Yeah, it
     would be great to see improvements to the review queues, more power to close/delete
@@ -115,4 +115,11 @@
     rage quit or resort to hateful comments.
   question_id: '2'
   user_id: '2'
-  votes_count: -1
+  votes_count: 0
+'13': !ruby/hash:Sinatra::IndifferentHash
+  content: 'This doesn’t sound too bad; you feel confident that you can solve this
+    problem. You start thinking about the problem and begin to form a high-level strategy
+    in your mind. You fire up your editor and start typing away. '
+  question_id: '7'
+  user_id: '1'
+  votes_count: 1

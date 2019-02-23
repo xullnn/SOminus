@@ -10,8 +10,8 @@ class SOMBase
 
   # write new data into yaml file
   def self.create(params)
-    hash = { new_id_of(data_name) => params }
-    File.open(File.join(data_path, "#{data_name.to_s}.yaml"), "a+") do |f|
+    hash = { new_id => params }
+    File.open(File.join(data_path, "#{obj_type_s}.yaml"), "a+") do |f|
       f.write(Psych.dump(hash.to_h).delete_prefix("---\n"))
     end
     new(hash)
@@ -20,8 +20,8 @@ class SOMBase
   # load all data of a certain type, wrap every datum into a Ruby object
   # return an array of objects
   def self.all
-    return [] unless load_data_of(data_name)
-    load_data_of(data_name).map do |id, attrs|
+    return [] unless data = load_data_of(obj_type_s)
+    data.map do |id, attrs|
       new({ id => attrs })
     end
   end
@@ -36,19 +36,20 @@ class SOMBase
     all.find { |obj| obj.send(attr) == value }
   end
 
-  # return a symbol based on current class name e.g :users, :answers
-  def self.data_name
-    (name.downcase + "s").to_sym
-  end
-
   def self.last
     all.last
   end
 
+  # singular
+  def self.obj_type_s
+    (name.downcase + "s")
+  end
+
   # find the biggest id of a certain type
   # return a new id + 1
-  def self.new_id_of(type)
-    valid_types(type)
+  def self.new_id
+    type = obj_type_s
+    validate_type(type)
     data = load_data_of(type)
     return "1" unless data
     max_id = data.keys.map(&:to_i).max
@@ -58,31 +59,33 @@ class SOMBase
   # load raw data from yaml file, return a nested hash
   # top level key is 'id'
   def self.load_data_of(type)
-    filename = type.to_s + ".yaml"
+    filename = obj_type_s + ".yaml"
     Psych.load_file(File.join(data_path, filename))
   end
 
-  def self.add_attributes_to(type, default="", *columns)
+  def self.add_attributes_to(default="", *columns)
     # need to add attr_accessor into Object's file
+    type = obj_type_s
     data = SOMBase.load_data_of(type)
     columns.each do |column|
       data.values.each do |attrs|
         attrs[column.to_s] = default
       end
     end
-    File.open(File.join(data_path, "#{type.to_s}.yaml"), "w+") do |f|
+    File.open(File.join(data_path, "#{type}.yaml"), "w+") do |f|
       f.write(Psych.dump(data).delete_prefix("---\n"))
     end
   end
 
   def self.update(id, attrs)
-    data = load_data_of(data_name)
+    type = obj_type_s
+    data = load_data_of(type)
     obj_info = data[id]
     attrs.each do |k, v|
       v = v.to_s if v.is_a?(Array)
       obj_info[k] = v
     end
-    File.open(File.join(data_path, "#{data_name.to_s}.yaml"), "w+") do |f|
+    File.open(File.join(data_path, "#{type}.yaml"), "w+") do |f|
       f.write(Psych.dump(data).delete_prefix("---\n"))
     end
   end

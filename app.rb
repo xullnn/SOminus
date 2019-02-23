@@ -20,7 +20,7 @@ configure do
 end
 
 get "/" do
-  @latest_questions = Question.all.last(5)
+  @latest_questions = Question.all.last(5).reverse
   erb :index
 end
 
@@ -295,11 +295,11 @@ end
     (3..100).cover?(username.size) && (6..100).cover?(password.size) && !password.match(/\W/)
   end
 
-  def valid_types(type)
+  def validate_type(type)
     valid_types = Dir.children(data_path).map do |file|
       File.basename(file).split(".").first
     end
-    unless valid_types.include?(type.to_s)
+    unless valid_types.include?(type)
       session[:message] = "Invalid request."
       redirect "/"
     end

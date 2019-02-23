@@ -2,7 +2,9 @@ class User < SOMBase
   attr_accessor :name, :id, :password, :voted_answers, :voted_questions
 
   def self.create(params)
-    params["password"] = BCrypt::Password.create(params[:password])
+    params["password"] = BCrypt::Password.create(params["password"])
+    params["voted_questions"] = "[]"
+    params["voted_answers"] = "[]"
     super(params)
   end
 
