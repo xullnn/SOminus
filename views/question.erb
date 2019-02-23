@@ -1,0 +1,61 @@
+
+<h4>Question:</h4>
+<div class="question">
+  <div class="vote_for_question">
+    <form action="/questions/<%= @question.id %>/vote" method="post">
+      <button type="submit"><span style='font-size:30px;'>&#9757;</span></button>
+    </form>
+    <p id="votes_count_for_question"><%= @question.votes_count || "0" %></p>
+    <form action="/questions/<%= @question.id %>/veto" method="post">
+      <button type="submit"><span style='font-size:32px;'>&#9759;</span></button>
+    </form>
+  </div>
+  <p><strong><%= @question.title %></strong></p>
+  <p class="description"><%= @question.description %></p>
+  <span class="asked_by">
+    (asked by:
+    <a href="/users/<%= @asker.id %>">
+      <%= @asker.name %>
+    </a>)
+  </span>
+</div>
+
+
+<h4>Answers:</h4>
+<div class="answers">
+  <% if @answers.nil? || @answers.empty? %>
+    <p>Currently this question has no answer.</p>
+  <% else %>
+    <% @answers.each do |answer| %>
+      <div class="answer_body" id="answer_<%= answer.id %>">
+        <div class="vote_for_answer">
+          <form action="/answers/<%= answer.id %>/vote" method="post">
+            <button type="submit"><span style='font-size:15px;'>&#9757;</span></button>
+          </form>
+          <p id="votes_count_for_answer"><%= answer.votes_count || "0" %></p>
+          <form action="/answers/<%= answer.id %>/veto" method="post">
+            <button type="submit"><span style='font-size:20px;'>&#9759;</span></button>
+          </form>
+        </div>
+        <p><%= answer.content %></p>
+        <div class="answerer">
+          <% answerer = User.find_by(:id, answer.user_id) %>
+          <p>answered by: <a href="/users/<%= answerer.id %>"><%= answerer.name %></a></p>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>
+
+<form action="/questions/<%= @question.id %>/answers" method="post" class="answer_question">
+  <hr>
+  <textarea name="content" rows="10" cols="100"></textarea>
+  <div class="answer_btn">
+    <% if session[:signed_in_as] %>
+      <button type="submit">Answer This Question</button>
+    <% else %>
+      <button disabled>Answer This Question</button>
+      <p class="login_hint">"Please login to answer questions."</p>
+    <% end %>
+  </div>
+</form>

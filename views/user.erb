@@ -1,0 +1,18 @@
+<h3>User's Page: <%= @user.name %></h3>
+
+<div class="asked_questions">
+  <ul>Asked Questions:
+    <% @user_s_asked_questions.each do |question| %>
+      <li><a href="/questions/<%= question.id %>"><%= question.title[0..60] %>...</a></li>
+    <% end %>
+  </ul>
+
+</div>
+
+<div class="answered_questions">
+  <ul>Answered Questions:
+    <% @user_s_answered_questions.each do |question| %>
+      <li><a href="/questions/<%= question.id %>#answer_<%= find_user_latest_answered_id_for_question(@user.id, question.id) %>"><%= question.title[0..60] %>...</a></li>
+    <% end %>
+  </ul>
+</div>

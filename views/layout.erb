@@ -1,11 +1,40 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="/application.css" type="text/css">
   </head>
 
   <body>
     <div class="main">
+      <div class="topnav">
+        <a class="active" href="/">SO<span>&#8254;</span></a>
+        <a href="/questions">Questions</a>
+        <a href="/new_question">| Ask Question</a>
+        <div class="search-container">
+          <form id="query_form" action="/question" method="get">
+            <input type="text" name="query" placeholder="Search.." size="50">
+            <button type="submit">Search</button>
+          </form>
+        </div>
+        <% if session[:signed_in_as] %>
+          <a href="/users/signout">Sign Out</a>
+        <% else %>
+          <a href="/users/new">Sign Up</a>
+          <a href="/users/signin">Sign In</a>
+        <% end %>
+      </div>
+      <% if session[:signed_in_as] %>
+        <p id="login_info"><em>Welcome. You're currently signed in as "<%= session[:signed_in_as] %>"</em></p>
+      <% end %>
+
+      <% if session[:message] %>
+        <div class="flash_message">
+          <p><%= session.delete(:message) %></p>
+        </div>
+      <% end %>
+
       <%= yield %>
     </div>
+
   </body>
 </html>

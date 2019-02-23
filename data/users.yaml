@@ -1,0 +1,40 @@
+'1': !ruby/hash:Sinatra::IndifferentHash
+  name: Emily
+  password: !ruby/string:BCrypt::Password
+    str: "$2a$10$9B./DVFsKX2/0nG7M/IhdeKQ5BHIYPl2g1TvwtRNHIdfMS6Ji51T2"
+    version: 2a
+    cost: 10
+    salt: "$2a$10$9B./DVFsKX2/0nG7M/Ihde"
+    checksum: KQ5BHIYPl2g1TvwtRNHIdfMS6Ji51T2
+  voted_answers: "[3, 12, 11, 13, 10, 8, 7]"
+  voted_questions: "[3, 2, 7]"
+'2': !ruby/hash:Sinatra::IndifferentHash
+  name: Bob
+  password: !ruby/string:BCrypt::Password
+    str: "$2a$10$n2fmhFcgz5jbGnKoDOysIuTGmrPgpntVlw6KVDAT4pOfDFVqB1BPu"
+    version: 2a
+    cost: 10
+    salt: "$2a$10$n2fmhFcgz5jbGnKoDOysIu"
+    checksum: TGmrPgpntVlw6KVDAT4pOfDFVqB1BPu
+  voted_answers: "[4, 2, 11, 12]"
+  voted_questions: "[4]"
+'3': !ruby/hash:Sinatra::IndifferentHash
+  name: Alice
+  password: !ruby/string:BCrypt::Password
+    str: "$2a$10$WRO3XAz917vcDLAYycu.ROZQumk129AgHfwpgnhYjKVCyzFhIXfcm"
+    version: 2a
+    cost: 10
+    salt: "$2a$10$WRO3XAz917vcDLAYycu.RO"
+    checksum: ZQumk129AgHfwpgnhYjKVCyzFhIXfcm
+  voted_answers: "[]"
+  voted_questions: "[]"
+'4': !ruby/hash:Sinatra::IndifferentHash
+  name: new_user
+  password: !ruby/string:BCrypt::Password
+    str: "$2a$10$3fzLTtCREkXiD6J5NN5nWeuF3VutLX8aArJPUPiYa6tQu8LcXhT9y"
+    version: 2a
+    cost: 10
+    salt: "$2a$10$3fzLTtCREkXiD6J5NN5nWe"
+    checksum: uF3VutLX8aArJPUPiYa6tQu8LcXhT9y
+  voted_questions: "[3, 4, 8]"
+  voted_answers: "[3, 4]"

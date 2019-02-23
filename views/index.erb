@@ -1,0 +1,8 @@
+<h4>Recently posted questions:</h4>
+
+<div class="lastest_questions">
+  <% @latest_questions.each do |question| %>
+  <p><strong><a href="/questions/<%= question.id %>"><%= question.title %></a></strong></p>
+  <p class="description"><%= question.description[0..200]%> ......</p>
+  <% end %>
+</div>
