@@ -103,7 +103,7 @@ class AppTest < Minitest::Test
 
   def test_ask_new_question
     get "/new_question"
-    assert_equal "You need to sign in first to perform this operation.", last_request_session[:message]
+    assert_equal "You need to sign in first to perform this operation.", last_request_session[:error]
 
     get "/new_question", {}, login_for_test
     assert_includes last_response.body, "Question Title"
@@ -113,10 +113,10 @@ class AppTest < Minitest::Test
     create_test_user("test", "123456")
 
     post "/questions", { title: 'test question', description: "some text" }
-    assert_equal "You need to sign in first to perform this operation.", last_request_session[:message]
+    assert_equal "You need to sign in first to perform this operation.", last_request_session[:error]
 
     post "/questions", { title: 'test question', description: "some text some text" }, login_for_test
-    assert_equal "Successfully posted a question.", last_request_session[:message]
+    assert_equal "Successfully posted a question.", last_request_session[:success]
   end
 
   def test_view_single_question
@@ -133,7 +133,7 @@ class AppTest < Minitest::Test
     assert_includes last_response.body, "test question 5"
 
     get "/question?query=test+6"
-    assert_equal "No results were found for \"test 6\".", last_request_session[:message]
+    assert_equal "No results were found for \"test 6\".", last_request_session[:error]
   end
 
   def test_view_all_questions
@@ -160,11 +160,11 @@ class AppTest < Minitest::Test
     create_test_user("test", "123456")
 
     post "/questions/3/answers", content: "Some answer"
-    assert_equal "You need to sign in first to perform this operation.", last_request_session[:message]
+    assert_equal "You need to sign in first to perform this operation.", last_request_session[:error]
 
     post "/questions/3/answers", { content: "Some answer" }, login_for_test
     assert_equal 302, last_response.status
-    assert_equal "Successfully posted an answer.", last_request_session[:message]
+    assert_equal "Successfully posted an answer.", last_request_session[:success]
 
     get last_response["Location"]
     assert_includes last_response.body, "test question 3"
@@ -212,10 +212,10 @@ class AppTest < Minitest::Test
     create_test_user("test", "123456")
 
     post "/questions/3/answers", { content: "abc" }, login_for_test
-    assert_equal "Answer length should be between 10 and 3000 characters.", last_request_session[:message]
+    assert_equal "Answer length should be between 10 and 3000 characters.", last_request_session[:error]
 
     post "/questions/3/answers", { content: "a" * 3001 }, login_for_test
-    assert_equal "Answer length should be between 10 and 3000 characters.", last_request_session[:message]
+    assert_equal "Answer length should be between 10 and 3000 characters.", last_request_session[:error]
   end
 
   def test_vote_for_question
@@ -223,14 +223,14 @@ class AppTest < Minitest::Test
     create_test_user("test", "123456")
 
     post "/questions/1/vote", {}
-    assert_equal last_request_session[:message], "You need to sign in first to perform this operation."
+    assert_equal last_request_session[:error], "You need to sign in first to perform this operation."
 
     post "/questions/1/vote", {}, login_for_test
-    assert_equal last_request_session[:message], "Vote successfully :)"
+    assert_equal last_request_session[:success], "Vote successfully :)"
     assert_equal 1, Question.find_by(:id, "1").votes_count
 
     post "/questions/1/vote", {}
-    assert_equal last_request_session[:message], "You've voted for this question before."
+    assert_equal last_request_session[:error], "You've voted for this question before."
     assert_equal 1, Question.find_by(:id, "1").votes_count
   end
 
@@ -239,14 +239,14 @@ class AppTest < Minitest::Test
     create_test_user("test", "123456")
 
     post "/questions/1/veto"
-    assert_equal last_request_session[:message], "You need to sign in first to perform this operation."
+    assert_equal last_request_session[:error], "You need to sign in first to perform this operation."
 
     post "/questions/1/veto", {}, login_for_test
-    assert_equal last_request_session[:message], "Veto successfully :("
+    assert_equal last_request_session[:success], "Veto successfully :("
     assert_equal -1, Question.find_by(:id, "1").votes_count
 
     post "/questions/1/vote"
-    assert_equal last_request_session[:message], "You've voted for this question before."
+    assert_equal last_request_session[:error], "You've voted for this question before."
     assert_equal -1, Question.find_by(:id, "1").votes_count
   end
 
@@ -256,14 +256,14 @@ class AppTest < Minitest::Test
     create_test_answer
 
     post "/answers/1/vote"
-    assert_equal last_request_session[:message], "You need to sign in first to perform this operation."
+    assert_equal last_request_session[:error], "You need to sign in first to perform this operation."
 
     post "/answers/1/vote", {}, login_for_test
-    assert_equal last_request_session[:message], "Vote successfully :)"
+    assert_equal last_request_session[:success], "Vote successfully :)"
     assert_equal 1, Answer.find_by(:id, "1").votes_count
 
     post "/answers/1/vote"
-    assert_equal last_request_session[:message], "You've voted for this answer before."
+    assert_equal last_request_session[:error], "You've voted for this answer before."
     assert_equal 1, Answer.find_by(:id, "1").votes_count
   end
 
@@ -273,14 +273,14 @@ class AppTest < Minitest::Test
     create_test_answer
 
     post "/answers/1/veto"
-    assert_equal last_request_session[:message], "You need to sign in first to perform this operation."
+    assert_equal last_request_session[:error], "You need to sign in first to perform this operation."
 
     post "/answers/1/veto", {}, login_for_test
-    assert_equal last_request_session[:message], "Veto successfully :("
+    assert_equal last_request_session[:success], "Veto successfully :("
     assert_equal -1, Answer.find_by(:id, "1").votes_count
 
     post "/answers/1/veto"
-    assert_equal last_request_session[:message], "You've voted for this answer before."
+    assert_equal last_request_session[:error], "You've voted for this answer before."
     assert_equal -1, Answer.find_by(:id, "1").votes_count
   end
 

@@ -37,7 +37,7 @@ post "/users/signup" do
   else
     User.create(params)
     session[:signed_in_as] = name
-    session[:message] = "Signed up successfully."
+    session[:success] = "Signed up successfully."
     redirect "/"
   end
 end
@@ -50,13 +50,13 @@ post "/users/signin" do
   name, password = params[:name].strip, params[:password].strip
   validate_user_credential(name, password)
   session[:signed_in_as] = name
-  session[:message] = "Successfully signed in as \"#{name}\"."
+  session[:success] = "Successfully signed in as \"#{name}\"."
   redirect "/"
 end
 
 get "/users/signout" do
   session.delete(:signed_in_as)
-  session[:message] = "Successfully signed out."
+  session[:success] = "Successfully signed out."
   redirect "/"
 end
 
@@ -70,7 +70,7 @@ post "/questions" do
   validate_question(params)
   params["user_id"] = current_user.id
   Question.create(params)
-  session[:message] = "Successfully posted a question."
+  session[:success] = "Successfully posted a question."
   redirect "/"
 end
 
@@ -81,7 +81,7 @@ get "/questions/:id" do
     @answers = Answer.find_all_by(:question_id, params[:id])
     erb :question
   else
-    session[:message] = "This question doesn't exist."
+    session[:error] = "This question doesn't exist."
     redirect "/"
   end
 end
@@ -91,7 +91,7 @@ get "/question" do
   query = params[:query].downcase.strip
   @questions = search_questions_by_title(query)
   if @questions.empty?
-    session[:message] = "No results were found for \"#{query}\"."
+    session[:error] = "No results were found for \"#{query}\"."
     redirect "/"
   end
   erb :search_results
@@ -107,7 +107,7 @@ post "/questions/:question_id/answers" do
   validate_answer(params)
   params["user_id"] = current_user.id
   Answer.create(params)
-  session[:message] = "Successfully posted an answer."
+  session[:success] = "Successfully posted an answer."
   redirect "/questions/#{params["question_id"]}"
 end
 
@@ -129,7 +129,7 @@ post "/questions/:id/vote" do
   @user = current_user
   votes = @user.voted_questions << params[:id].to_i
   User.update(@user.id, voted_questions: votes)
-  session[:message] = "Vote successfully :)"
+  session[:success] = "Vote successfully :)"
   redirect "/questions/#{@question.id}"
 end
 
@@ -143,7 +143,7 @@ post "/questions/:id/veto" do
   @user = current_user
   votes = @user.voted_questions << params[:id].to_i
   User.update(@user.id, voted_questions: votes)
-  session[:message] = "Veto successfully :("
+  session[:success] = "Veto successfully :("
   redirect "/questions/#{@question.id}"
 end
 
@@ -157,7 +157,7 @@ post "/answers/:id/vote" do
   @user = current_user
   votes = @user.voted_answers << params[:id].to_i
   User.update(@user.id, voted_answers: votes)
-  session[:message] = "Vote successfully :)"
+  session[:success] = "Vote successfully :)"
   redirect "/questions/#{@answer.question_id}"
 end
 
@@ -171,7 +171,7 @@ post "/answers/:id/veto" do
   @user = current_user
   votes = @user.voted_answers << params[:id].to_i
   User.update(@user.id, voted_answers: votes)
-  session[:message] = "Veto successfully :("
+  session[:success] = "Veto successfully :("
   redirect "/questions/#{@answer.question_id}"
 end
 
@@ -182,7 +182,7 @@ def check_vote_validity_for_question(question_id)
     @question = Question.find_by(:id, question_id)
     @asker = User.find_by(:id, @question.user_id)
     @answers = Answer.find_all_by(:question_id, question_id)
-    session[:message] = "You've voted for this question before."
+    session[:error] = "You've voted for this question before."
     redirect "/questions/#{@question.id}"
   end
 end
@@ -193,18 +193,18 @@ def check_vote_validity_for_answer(answer_id)
     @question = Question.find_by(:id, @answer.question_id)
     @asker = User.find_by(:id, @answer.user_id)
     @answers = Answer.find_all_by(:id, answer_id)
-    session[:message] = "You've voted for this answer before."
+    session[:error] = "You've voted for this answer before."
     redirect "/questions/#{@question.id}"
   end
 end
 
   def validate_question(params)
     if !(10..120).cover?(params[:title].strip.size)
-      session[:message] = "Question title should be between 10 and 120 characters."
+      session[:error] = "Question title should be between 10 and 120 characters."
       status 422
       halt erb(:new_question)
     elsif !(10..2000).cover?(params[:description].strip.size)
-      session[:message] = "Question description should be between 10 and 2000 characters."
+      session[:error] = "Question description should be between 10 and 2000 characters."
       status 422
       halt erb(:new_question)
     end
@@ -212,7 +212,7 @@ end
 
   def validate_answer(params)
     unless (10..3000).cover?(params[:content].strip.size)
-      session[:message] = "Answer length should be between 10 and 3000 characters."
+      session[:error] = "Answer length should be between 10 and 3000 characters."
       redirect back
     end
   end
@@ -246,7 +246,7 @@ end
   def check_name_uniqueness(username)
     return unless User.all
     if User.find_by(:name, username)
-      session[:message] = "Name \"#{username}\" has been taken. Please choose another one."
+      session[:error] = "Name \"#{username}\" has been taken. Please choose another one."
       status 422
       halt erb(:signup)
     end
@@ -254,7 +254,7 @@ end
 
   def validate_user
     unless session[:signed_in_as]
-      session[:message] = "You need to sign in first to perform this operation."
+      session[:error] = "You need to sign in first to perform this operation."
       redirect "/"
     end
   end
@@ -263,7 +263,7 @@ end
     user = User.find_by(:name, name)
     unless user && BCrypt::Password.new(user.password) == password
       status 422
-      session[:message] = "Wrong user name or password"
+      session[:error] = "Wrong user name or password"
       halt erb(:signin)
     end
   end
@@ -279,13 +279,13 @@ end
   def invalid_name_and_password?(username, password)
     return false if valid_name_and_password?(username, password)
     if !(3..100).cover?(username.size)
-      session[:message] = "\"#{username}\" is not a valid name, name should be between 3 - 100 characters."
+      session[:error] = "\"#{username}\" is not a valid name, name should be between 3 - 100 characters."
     end
     if !(6..100).cover?(password.size) || password.match(/\W/)
-      if session[:message]
-        session[:message] += "<br>Invalid password, password should be between 6 - 100 alphanumeric chars."
+      if session[:error]
+        session[:error] += "<br>Invalid password, password should be between 6 - 100 alphanumeric chars."
       else
-        session[:message] = "Invalid password, password should be between 6 - 100 alphanumeric chars."
+        session[:error] = "Invalid password, password should be between 6 - 100 alphanumeric chars."
       end
     end
     true
@@ -300,7 +300,13 @@ end
       File.basename(file).split(".").first
     end
     unless valid_types.include?(type)
-      session[:message] = "Invalid request."
+      session[:error] = "Invalid request."
       redirect "/"
     end
   end
+
+helpers do
+  def current_path
+    request.path_info
+  end
+end

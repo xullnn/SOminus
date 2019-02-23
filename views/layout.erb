@@ -19,17 +19,23 @@
         <% if session[:signed_in_as] %>
           <a href="/users/signout">Sign Out</a>
         <% else %>
-          <a href="/users/new">Sign Up</a>
-          <a href="/users/signin">Sign In</a>
+          <% unless current_path == "/users/signin" || current_path == "/users/new" %>
+            <a href="/users/new">Sign Up</a>
+            <a href="/users/signin">Sign In</a>
+          <% end %>
         <% end %>
       </div>
       <% if session[:signed_in_as] %>
         <p id="login_info"><em>Welcome. You're currently signed in as "<%= session[:signed_in_as] %>"</em></p>
       <% end %>
 
-      <% if session[:message] %>
-        <div class="flash_message">
-          <p><%= session.delete(:message) %></p>
+      <% if session[:success] %>
+        <div class="flash_message_success">
+          <p><%= session.delete(:success) %></p>
+        </div>
+      <% elsif session[:error] %>
+        <div class="flash_message_error">
+          <p><%= session.delete(:error) %></p>
         </div>
       <% end %>
 
